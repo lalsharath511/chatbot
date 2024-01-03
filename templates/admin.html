@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Page</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 CDN -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        form {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        input[type="file"],
+        input[type="submit"] {
+            padding: 8px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        h2 {
+            color: #444;
+            margin-top: 30px;
+            font-size: 1.5em;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 5px;
+            background-color: #fff;
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        input[type="submit"].trigger {
+            background-color: #1E90FF;
+        }
+
+        input[type="submit"].trigger:hover {
+            background-color: #4682B4;
+        }
+
+        a {
+            text-decoration: none;
+            color: #1E90FF;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Admin Page</h1>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="pdf_file">
+        <input type="submit" value="Upload PDF">
+    </form>
+
+    <h2>Uploaded PDFs:</h2>
+    <ul>
+        {% for pdf in data['pdfs'] %}
+        <li>{{ pdf['filename'] }}</li>
+        {% endfor %}
+    </ul>
+
+    <form method="post" action="/trigger_vectorization">
+        <input type="submit" value="Trigger Vectorization" onclick="showAlert()" class="trigger">
+    </form>
+
+    <h2>Feedback Data:</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Feedback Text</th>
+                <th>User Message</th>
+                <th>Bot Response</th>
+                <th>Message Time</th>
+                <th>Feedback Type</th>
+            </tr>
+        </thead>
+        <tbody id="feedbackTableBody">
+            {% for feedback in data['feedback_data'] %}
+            <tr>
+                <td>{{ feedback[0] }}</td>
+                <td>{{ feedback[1] }}</td>
+                <td>{{ feedback[2] }}</td>
+                <td>{{ feedback[3] }}</td>
+                <td>{{ feedback[4] }}</td>
+                <td>{{ feedback[5] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><a href="{{ url_for('logout') }}">Logout</a></p>
+
+    <script>
+        function showAlert() {
+            Swal.fire({
+                title: 'Vectorization Process Successfully Started. Please wait, this might take a few minutes!',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+    </script>
+</body>
+
+</html>
