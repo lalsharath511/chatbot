@@ -270,5 +270,4 @@ def fetch_feedback_data():
 
 
 if __name__ == '__main__':
-    # app.run()
-    app.run(host='10.182.0.2', port=5000)
+    app.run()
