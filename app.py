@@ -105,12 +105,12 @@ def get_conversation_chain():
 
 
 def get_Chat_response(user_input):
-    conversation_chain=get_conversation_chain()
-    response=conversation_chain({"question": user_input})
-    response_data = {'answer': response['answer'],
-                     'sources':response['sources']}
-    # response_data = {'answer': 'answerssss',
-    #                  'sources':'sources'}
+    # conversation_chain=get_conversation_chain()
+    # response=conversation_chain({"question": user_input})
+    # response_data = {'answer': response['answer'],
+    #                  'sources':response['sources']}
+    response_data = {'answer': 'answerssss',
+                     'sources':'sources'}
     return jsonify({'sys_out': response_data})
     
     
@@ -270,4 +270,5 @@ def fetch_feedback_data():
 
 
 if __name__ == '__main__':
-    app.run()
+    # app.run()
+    app.run(host='10.182.0.2', port=5000)
