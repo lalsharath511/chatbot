@@ -115,7 +115,6 @@ def get_conversation_chain():
 def get_Chat_response(user_input):
     conversation_chain=get_conversation_chain()
     response=conversation_chain({"question": user_input})
-    print(response)
     response_data = {'answer': response['answer'],
                      'sources':response['sources']}
     # response_data = {'answer': 'answerssss',
