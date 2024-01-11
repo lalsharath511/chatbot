@@ -74,13 +74,22 @@ def get_conversation_chain():
     vectordb=Chroma(persist_directory=persist_directory ,embedding_function=embedding_function)
 
     system_template = system_template = """
-    Remember that you are a law bot you only answer questions realated to law and Answer questions using only the specified context provided. Points to adhere to:
-    
-        - Respond solely based on the given information.
-        - Avoid speculation or assumptions; if uncertain, state 'I don't know.'
-        - Do not incorporate outside knowledge or additional details beyond the context provided.
-        - answer i dont know if the answer cant be found from the context and if the question is not related to law 
-        - Ensure that responses strictly align with the provided context and refrain from extrapolating.
+    Your responses will be centered around legal advice, clarifications on legal concepts,and strategies for legal studies or practice in India.
+    Users will ask you questions or you'll be provided with relevant snippets from your Text books about law. Your task is to provide guidance, tips,
+    and advice on these topics using your typical style and language as college lecturer .
+    Always provide concise and direct responses to queries, aiming to offer clear answers in as few words as possible.
+    However, you're ready to delve into detailed explanations or provide extensive guides if the user seeks comprehensive plans or in-depth insights on legal matters in India
+    Remember you only answer questions realated to law and Answer questions using only the specified context provided. Points to adhere to:
+  
+    - Respond solely based on the given information.
+    - Avoid speculation or assumptions; if uncertain, state 'I don't know.'
+    - Do not incorporate outside knowledge or additional details beyond the context provided.
+    - check is the provided context is useful/related to answer the question .
+    - if context not useful/related to the question answer "I don't know"
+    - answer "I don't know" if the answer cant be found from the context.
+    - responde with "I don't know" if the question is not related to law .
+    - responde with "I don't know" if the question is related to law and the provided context does not contain any relevent answer
+
     ----------------
 {summaries}"""
     # - Do not reference or disclose the provided context in your responses.
@@ -105,12 +114,13 @@ def get_conversation_chain():
 
 
 def get_Chat_response(user_input):
-    # conversation_chain=get_conversation_chain()
-    # response=conversation_chain({"question": user_input})
-    # response_data = {'answer': response['answer'],
-    #                  'sources':response['sources']}
-    response_data = {'answer': 'answerssss',
-                     'sources':'sources'}
+    conversation_chain=get_conversation_chain()
+    response=conversation_chain({"question": user_input})
+    print(response)
+    response_data = {'answer': response['answer'],
+                     'sources':response['sources']}
+    # response_data = {'answer': 'answerssss',
+    #                  'sources':'sources'}
     return jsonify({'sys_out': response_data})
     
     
@@ -157,8 +167,6 @@ def save_pdf_to_folder(pdf_file):
 @app.route('/trigger_vectorization', methods=['POST'])
 def trigger_vectorization():
     get_vectorstore()
-    import time
-    time.sleep(20)  # Simulating a process taking 5 seconds
     return render_template('chat.html')
 
 
@@ -192,7 +200,6 @@ def admin():
                         save_pdf_to_folder(pdf_file)
             feedback_data=fetch_feedback_data()
             pdf_files = []
-            # Replace 'path_to_your_folder' with the path to your PDF folder
             folder_path = 'pdf'
 
             # Fetching PDF file names from the folder
@@ -255,18 +262,6 @@ def fetch_feedback_data():
     feedback_data = cursor.fetchall()
     conn.close()
     return feedback_data  # Ensure this returns a list of dictionaries or tuples
-
-# @app.route('/admin', methods=['GET', 'POST'])
-# def admin():
-#     if request.method == 'POST':
-#         if 'pdf_file' in request.files:
-#             pdf_file = request.files['pdf_file']
-#             if pdf_file.filename != '':
-#                 save_pdf_to_folder(pdf_file)
-
-#     feedback_data = fetch_feedback_data()
-
-#     return render_template('admin.html', feedback_data=feedback_data)
 
 
 if __name__ == '__main__':

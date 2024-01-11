@@ -22,13 +22,13 @@
 						<div class="card-header msg_head">
 							<div class="d-flex bd-highlight">
 								<div class="img_cont">
-									<img src="https://i.ibb.co/fSNP7Rz/icons8-chatgpt-512.png" class="rounded-circle user_img">
+									<img src="{{ url_for('static', filename='botlog.jpg') }}" class="rounded-circle user_img">
 									<span class="online_icon"></span>
 								</div>
 								<div class="user_info">
 									<span>LawBot</span>
 									<p>Ask me anything!</p>
-									<p>This is the pdf we have :<select id="fileDropdown">
+									<p>This is the pdf we have  <select id="fileDropdown">
 										{% for pdf in pdfs %}
 											<option value="{{ pdf['filename'] }}">{{ pdf['filename'] }}</option>
 										{% endfor %}
@@ -38,7 +38,7 @@
 						</div>
 						<div id="messageFormeight" class="card-body msg_card_body">
 							<div class="d-flex justify-content-start mb-4">
-								<div class="img_cont_msg"><img src="https://i.ibb.co/fSNP7Rz/icons8-chatgpt-512.png" class="rounded-circle user_img_msg"></div>
+								<div class="img_cont_msg"><img src="{{ url_for('static', filename='botlog.jpg') }}" class="rounded-circle user_img_msg"></div>
 								<div class="msg_cotainer">
 									Hello how may I help you!
 
@@ -88,6 +88,11 @@
 		
 		<script>
 			$(document).ready(function() {
+
+				function scrollToBottom() {
+					var chatCard = $(".msg_card_body");
+					chatCard.scrollTop(chatCard[0].scrollHeight);
+				}
 				// Function to add thumbs buttons
 				function addThumbsButtons() {
 					var thumbsButtonsHtml = `
@@ -126,12 +131,13 @@
 					}).done(function(data) {
 						var botHtml = `
 							<div class="d-flex justify-content-start mb-4">
-								<div class="img_cont_msg"><img src="https://i.ibb.co/fSNP7Rz/icons8-chatgpt-512.png" class="rounded-circle user_img_msg"></div>
+								<div class="img_cont_msg"><img src="{{ url_for('static', filename='botlog.jpg') }}" class="rounded-circle user_img_msg"></div>
 								<div class="msg_cotainer">${data['sys_out']['answer']}</div>
 							</div>
 						`;
 						botHtml += addThumbsButtons();
 						$("#messageFormeight").append(botHtml);
+						scrollToBottom();
 					});
 				});
 	
@@ -143,6 +149,8 @@ $(document).on("click", "#botThumbsUp, #botThumbsDown", function() {
     // Store the feedback type in a data attribute in the modal
     $('#feedbackModal').data('feedback-type', feedbackType).modal('show');
 });
+
+
 
 // Handle form submission in the feedback modal
 $('#feedbackForm').on('submit', function(event) {
