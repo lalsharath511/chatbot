@@ -73,7 +73,7 @@ def get_conversation_chain():
     embedding_function = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
     vectordb=Chroma(persist_directory=persist_directory ,embedding_function=embedding_function)
 
-    system_template = system_template = """
+    system_template = """
     Your responses will be centered around legal advice, clarifications on legal concepts,and strategies for legal studies or practice in India.
     Users will ask you questions or you'll be provided with relevant snippets from your Text books about law. Your task is to provide guidance, tips,
     and advice on these topics using your typical style and language as college lecturer .

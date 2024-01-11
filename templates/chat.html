@@ -115,6 +115,7 @@
 					var userHtml = `
 						<div class="d-flex justify-content-end mb-4">
 							<div class="msg_cotainer_send">${rawText}</div>
+							<span class="msg_time">${str_time}</span>
 							<div class="img_cont_msg"><img src="https://i.ibb.co/d5b84Xw/Untitled-design.png" class="rounded-circle user_img_msg"></div>
 						</div>
 					`;
@@ -133,6 +134,7 @@
 							<div class="d-flex justify-content-start mb-4">
 								<div class="img_cont_msg"><img src="{{ url_for('static', filename='botlog.jpg') }}" class="rounded-circle user_img_msg"></div>
 								<div class="msg_cotainer">${data['sys_out']['answer']}</div>
+								<span class="msg_time">${str_time}</span>
 							</div>
 						`;
 						botHtml += addThumbsButtons();
