@@ -89,7 +89,6 @@ def get_conversation_chain():
     - answer "I don't know" if the answer cant be found from the context.
     - responde with "I don't know" if the question is not related to law .
     - responde with "I don't know" if the question is related to law and the provided context does not contain any relevent answer
-
     ----------------
 {summaries}"""
     # - Do not reference or disclose the provided context in your responses.
